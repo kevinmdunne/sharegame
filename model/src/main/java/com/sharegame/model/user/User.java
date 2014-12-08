@@ -1,5 +1,7 @@
 package com.sharegame.model.user;
 
+import com.sharegame.model.portfolio.Portfolio;
+
 public class User {
 
 	private String username;
@@ -9,9 +11,18 @@ public class User {
 	private String email;
 	private Gender gender;
 	private long userID;
+	private Portfolio portfolio;
 	
 	public User(){
 		
+	}
+	
+	public Portfolio getPortfolio(){
+		return portfolio;
+	}
+	
+	public void setPortfolio(Portfolio portfolio){
+		this.portfolio = portfolio;
 	}
 	
 	public String getEmail(){
