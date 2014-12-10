@@ -16,7 +16,14 @@ public class UserAuthenticationService extends AbstractMicroservice{
 	
 	@Override
 	public void execute(MicroserviceRequest request) throws ServiceExecutionException {
-
+		Object data = request.getPayload();
+		if(data instanceof String[]){
+			String[] details = (String[])data;
+			if(details.length == 2){
+				String username = details[0];
+				String password = details[1];
+			}
+		}
 	}
 
 	@Override
