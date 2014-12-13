@@ -11,6 +11,7 @@
     <modules>
         <module>model</module>
 		<module>services</module>
+		<module>dal</module>
   </modules>
 
 </project>

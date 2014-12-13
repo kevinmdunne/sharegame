@@ -1,9 +1,20 @@
 package com.sharegame.model.portfolio;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "PORTFOLIO")
 public class Portfolio {
 
+	@Column(name = "cashBalance")
 	private int cashBalance;
 
+	@Id @GeneratedValue
+	@Column(name = "id")
 	private long id;
 
 	public Portfolio() {

@@ -1,16 +1,41 @@
 package com.sharegame.model.user;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
 import com.sharegame.model.portfolio.Portfolio;
 
+@Entity
+@Table(name = "USER")
 public class User {
-
+	@Column(name = "username")
 	private String username;
+	
+	@Column(name = "password")
 	private String password;
+	
+	@Column(name = "firstname")
 	private String firstname;
+	
+	@Column(name = "surname")
 	private String surname;
+	
+	@Column(name = "email")
 	private String email;
+	
+	@Column(name = "gender")
 	private Gender gender;
+	
+	@Id @GeneratedValue
+	@Column(name = "id")
 	private long userID;
+	
+	@ManyToOne(cascade = CascadeType.ALL)
 	private Portfolio portfolio;
 	
 	public User(){
