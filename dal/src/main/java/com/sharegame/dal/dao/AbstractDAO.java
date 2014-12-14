@@ -2,10 +2,13 @@ package com.sharegame.dal.dao;
 
 import java.util.List;
 
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
 import com.sharegame.dal.hibernate.HibernateAccessManager;
+import com.sharegame.dal.sql.SQLGenerator;
+import com.sharegame.dal.sql.SQLGeneratorFactory;
 
 public abstract class AbstractDAO<T> implements DataAccessObject<T> {
 
@@ -39,9 +42,21 @@ public abstract class AbstractDAO<T> implements DataAccessObject<T> {
     	return true;
     }
     
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<T> find(T prototype) {
-		return null;
+		SQLGeneratorFactory factory = SQLGeneratorFactory.getInstance();
+        SQLGenerator generator = factory.createGenerator(prototype);
+        String hql = generator.getSQL(prototype);
+        Session session = HibernateAccessManager.getInstance().getSessionFactory().getCurrentSession();
+        session.beginTransaction();
+        Query query = session.createQuery(hql);
+
+        List<T> results = query.list();
+        session.getTransaction().commit();
+
+        return results; 
+
 	}
 
 

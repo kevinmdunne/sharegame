@@ -7,10 +7,10 @@ import junit.framework.TestSuite;
 
 import com.mini.data.MicroserviceRequest;
 import com.mini.exception.ServiceExecutionException;
+import com.mini.io.adapter.DummyQueueAdapter;
 import com.sharegame.model.portfolio.Portfolio;
 import com.sharegame.model.user.Gender;
 import com.sharegame.model.user.User;
-import com.sharegame.services.user.UserCreationService;
 
 public class TestUserCreationService extends TestCase {
 
@@ -23,7 +23,8 @@ public class TestUserCreationService extends TestCase {
 	}
 
 	public void testCreatingNewUser() {
-		UserCreationService service = new UserCreationService(null);
+		DummyQueueAdapter qAdapter = new DummyQueueAdapter();
+		UserCreationService service = new UserCreationService(qAdapter);
 		User user = new User();
 		user.setFirstname("kevin");
 		user.setEmail("kevinmdunne@gmail.com");

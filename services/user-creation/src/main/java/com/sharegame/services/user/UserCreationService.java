@@ -1,8 +1,10 @@
 package com.sharegame.services.user;
 
 import com.mini.data.MicroserviceRequest;
+import com.mini.data.MicroserviceResponse;
 import com.mini.exception.ServiceExecutionException;
 import com.mini.io.adapter.IQueueAdapter;
+import com.mini.io.exception.QueueException;
 import com.mini.microservice.AbstractMicroservice;
 import com.sharegame.dal.dao.DAOFactory;
 import com.sharegame.dal.dao.DataAccessObject;
@@ -19,11 +21,23 @@ public class UserCreationService extends AbstractMicroservice{
 	@SuppressWarnings("unchecked")
 	@Override
 	public void execute(MicroserviceRequest request) throws ServiceExecutionException {
-		Object data = request.getPayload();
-		if(data instanceof User){
-			User user = (User)data;
-			DataAccessObject<User> dao = (DataAccessObject<User>) DAOFactory.getInstance().getDAO(user);
-			dao.save(user);
+		try{
+			MicroserviceResponse response = new MicroserviceResponse();
+			response.setCorrelationID(request.getCorrelationID());
+			
+			Object data = request.getPayload();
+			if(data instanceof User){
+				User user = (User)data;
+				DataAccessObject<User> dao = (DataAccessObject<User>) DAOFactory.getInstance().getDAO(user);
+				dao.save(user);
+				response.setStatus(MicroserviceResponse.SUCCESS);
+			}else{
+				response.setStatus(MicroserviceResponse.FAILURE);
+				response.setStatusMessage("Invalid arguments for user creation service");
+			}
+			sendResponse(response);
+		}catch(QueueException e){
+			throw new ServiceExecutionException(e);
 		}
 	}
 
