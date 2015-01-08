@@ -1,7 +1,11 @@
 package com.sharegame.model.stock;
 
-public class Stock {
+import java.io.Serializable;
 
+public class Stock implements Serializable{
+
+	private static final long serialVersionUID = -8704995635093647168L;
+	
 	private String stockName;
 	private String symbol;
 	private int price;

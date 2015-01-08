@@ -1,5 +1,7 @@
 package com.sharegame.model.user;
 
+import java.io.Serializable;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,7 +14,10 @@ import com.sharegame.model.portfolio.Portfolio;
 
 @Entity
 @Table(name = "USER")
-public class User {
+public class User implements Serializable{
+
+	private static final long serialVersionUID = -1662596162549941421L;
+
 	@Column(name = "username")
 	private String username;
 	

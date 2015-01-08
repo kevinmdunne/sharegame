@@ -1,13 +1,16 @@
 package com.sharegame.services.user;
 
 import java.util.List;
+import java.util.Scanner;
 
 import com.mini.data.MicroserviceRequest;
 import com.mini.data.MicroserviceResponse;
-import com.mini.exception.InfastructureException;
 import com.mini.exception.ServiceExecutionException;
 import com.mini.io.adapter.IQueueAdapter;
+import com.mini.io.adapter.QueueAdapter;
+import com.mini.io.adapter.QueueAdapterFactory;
 import com.mini.io.exception.QueueException;
+import com.mini.io.metadata.QueueMetaData;
 import com.mini.microservice.AbstractMicroservice;
 import com.sharegame.dal.dao.DAOFactory;
 import com.sharegame.dal.dao.DataAccessObject;
@@ -57,15 +60,29 @@ public class UserAuthenticationService extends AbstractMicroservice{
 	public String getID() {
 		return ID;
 	}
-
-	@Override
-	public void start() throws InfastructureException {
-
-	}
-
-	@Override
-	public void stop() throws InfastructureException {
-
+	
+	public static void main(String[] args){   
+		try{
+			if(args.length == 3){
+				String queueName = args[0];
+				String adapterClassName = args[1];
+				String serverURL = args[2];
+				
+				QueueMetaData queueData = new QueueMetaData(queueName, serverURL);
+				QueueAdapterFactory factory = QueueAdapterFactory.getInstance();
+				QueueAdapter queueAdapter = factory.createAdapter(adapterClassName, queueData);
+				UserAuthenticationService service = new UserAuthenticationService(queueAdapter);
+				service.start();
+				
+				new Scanner(System.in).nextLine();
+				System.out.println("Stopping service");
+				service.stop();
+			}else{
+				System.out.println("Usage : queueName adapterClassName serverURL");
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}
 	}
 
 }
