@@ -10,6 +10,16 @@
         <servlet-class>com.sharegame.web.servlets.LoginServlet</servlet-class>
     </servlet>
     
+	<servlet>
+    	<servlet-name>CreateUserServlet</servlet-name>
+        <servlet-class>com.sharegame.web.servlets.CreateUserServlet</servlet-class>
+    </servlet>
+    
+	<servlet-mapping>
+        <servlet-name>CreateUserServlet</servlet-name>
+        <url-pattern>/createuser</url-pattern>
+    </servlet-mapping>
+    
 	<servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/login</url-pattern>
