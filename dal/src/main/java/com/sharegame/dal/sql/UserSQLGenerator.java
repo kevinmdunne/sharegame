@@ -29,10 +29,6 @@ public class UserSQLGenerator implements SQLGenerator {
 		if (user.getPassword() != null && !user.getPassword().isEmpty()) {
 			criteria.add(" u.password=" + "'" + user.getPassword() + "'");
 		}
-		
-		if(user.getEmail() != null && user.getEmail().isEmpty()){
-			criteria.add(" u.email=" + "'" + user.getEmail() + "'");
-		}
 
 		if (!criteria.isEmpty()) {
 			hql = hql + " WHERE";

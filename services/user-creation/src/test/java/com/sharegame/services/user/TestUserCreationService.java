@@ -27,11 +27,10 @@ public class TestUserCreationService extends TestCase {
 		UserCreationService service = new UserCreationService(qAdapter);
 		User user = new User();
 		user.setFirstname("kevin");
-		user.setEmail("kevinmdunne@gmail.com");
 		user.setGender(Gender.MALE);
 		user.setPassword("password");
 		user.setSurname("dunne");
-		user.setUsername("kevinmdunne");
+		user.setUsername("kevinmdunne@gmail.com");
 		
 		Portfolio portfolio = new Portfolio();
 		portfolio.setCashBalance(888);

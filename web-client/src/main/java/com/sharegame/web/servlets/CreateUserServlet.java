@@ -8,21 +8,65 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.mini.connection.MicroServiceConnection;
+import com.mini.connection.MicroServiceConnectionFactory;
+import com.mini.data.MicroserviceRequest;
+import com.mini.data.MicroserviceResponse;
+import com.sharegame.model.portfolio.Portfolio;
+import com.sharegame.model.user.Gender;
+import com.sharegame.model.user.User;
+
 public class CreateUserServlet extends HttpServlet{
 	
-	@Override
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException {
-		PrintWriter out = response.getWriter();
-		out.println("Get me");
-		out.flush();
-		out.close();
+	private static final String CREATE_USER_SERVICE_ID = "com.sharegame.services.user.UserCreationService";
+	
+	private static MicroServiceConnection connection;
+	
+	static{
+		MicroServiceConnectionFactory factory = new MicroServiceConnectionFactory("failover://tcp://localhost:61616");
+		connection = factory.createConnection();
 	}
 	
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		PrintWriter out = response.getWriter();
-		out.println("WORKING BABY");
+		
+		String firstname = request.getParameter("firstname");
+		String surname = request.getParameter("surname");
+		String email = request.getParameter("email");
+		String password = request.getParameter("password");
+		
+		User user = new User();
+		
+		user.setFirstname(firstname);
+		user.setGender(Gender.MALE);
+		user.setPassword(password);
+		user.setSurname(surname);
+		user.setUsername(email);
+		Portfolio portfolio = new Portfolio();
+		portfolio.setCashBalance(100000);
+		
+		user.setPortfolio(portfolio);
+		
+		MicroserviceRequest msRequest = new MicroserviceRequest(CREATE_USER_SERVICE_ID);
+		msRequest.setPayload(user);
+		
+		try{
+			MicroserviceResponse msResponse = connection.request(msRequest);
+			
+			if(msResponse.getStatus() == MicroserviceResponse.SUCCESS){
+				out.println("User successfully created");
+			}else{
+				out.println("User creation failed.");
+				out.println(msResponse.getStatusMessage());
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		
 		out.flush();
 		out.close();
+
+		
 	}
 }
