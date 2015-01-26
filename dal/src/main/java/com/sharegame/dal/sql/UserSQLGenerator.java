@@ -22,7 +22,7 @@ public class UserSQLGenerator implements SQLGenerator {
 			criteria.add(" u.surname=" + "'" + user.getSurname() + "'");
 		}
 
-		if (user.getUsername() != null && !user.getSurname().isEmpty()) {
+		if (user.getUsername() != null && !user.getUsername().isEmpty()) {
 			criteria.add(" u.username=" + "'" + user.getUsername() + "'");
 		}
 

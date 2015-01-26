@@ -9,7 +9,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.mini.connection.MicroServiceConnection;
-import com.mini.connection.MicroServiceConnectionFactory;
 import com.mini.data.MicroserviceRequest;
 import com.mini.data.MicroserviceResponse;
 import com.sharegame.model.portfolio.Portfolio;
@@ -19,13 +18,6 @@ import com.sharegame.model.user.User;
 public class CreateUserServlet extends HttpServlet{
 	
 	private static final String CREATE_USER_SERVICE_ID = "com.sharegame.services.user.UserCreationService";
-	
-	private static MicroServiceConnection connection;
-	
-	static{
-		MicroServiceConnectionFactory factory = new MicroServiceConnectionFactory("failover://tcp://localhost:61616");
-		connection = factory.createConnection();
-	}
 	
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -52,6 +44,7 @@ public class CreateUserServlet extends HttpServlet{
 		msRequest.setPayload(user);
 		
 		try{
+			MicroServiceConnection connection = MSConnectionManager.getInstance().getConnection();
 			MicroserviceResponse msResponse = connection.request(msRequest);
 			
 			if(msResponse.getStatus() == MicroserviceResponse.SUCCESS){
@@ -66,7 +59,5 @@ public class CreateUserServlet extends HttpServlet{
 		
 		out.flush();
 		out.close();
-
-		
 	}
 }

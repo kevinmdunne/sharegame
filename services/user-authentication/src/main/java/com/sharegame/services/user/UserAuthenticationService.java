@@ -33,7 +33,7 @@ public class UserAuthenticationService extends AbstractMicroservice{
 			Object data = request.getPayload();
 			if(data instanceof User){
 				User user = (User)data;
-				if(user.getUsername() == null || user.getUsername().isEmpty() || user.getPassword() == null || user.getPassword().isEmpty()){
+				if(user.getUsername() != null && !user.getUsername().isEmpty() && user.getPassword() != null && !user.getPassword().isEmpty()){
 					DataAccessObject<User> dao = (DataAccessObject<User>) DAOFactory.getInstance().getDAO(user);
 					List<User> users = dao.find(user);
 					if(!users.isEmpty()){
