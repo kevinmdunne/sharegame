@@ -18,7 +18,7 @@ public class MSConnectionManager {
 	
 	private MSConnectionManager(){
 		MicroServiceConnectionFactory factory = new MicroServiceConnectionFactory("failover://tcp://localhost:61616");
-		connection = factory.createConnection();	
+		connection = factory.createConnection("ShareGameConnectionManager");	
 	}
 	
 	public MicroServiceConnection getConnection(){
