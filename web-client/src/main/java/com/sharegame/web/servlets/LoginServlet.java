@@ -13,6 +13,7 @@ import com.mini.data.MicroserviceRequest;
 import com.mini.data.MicroserviceResponse;
 import com.sharegame.model.user.Gender;
 import com.sharegame.model.user.User;
+import com.sharegame.web.msconnection.MSConnectionManager;
 
 public class LoginServlet extends HttpServlet{
 	

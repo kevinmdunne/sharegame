@@ -14,6 +14,7 @@ import com.mini.data.MicroserviceResponse;
 import com.sharegame.model.portfolio.Portfolio;
 import com.sharegame.model.user.Gender;
 import com.sharegame.model.user.User;
+import com.sharegame.web.msconnection.MSConnectionManager;
 
 public class CreateUserServlet extends HttpServlet{
 	

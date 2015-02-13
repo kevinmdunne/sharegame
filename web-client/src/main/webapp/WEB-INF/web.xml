@@ -5,6 +5,10 @@
 <web-app>
   	<display-name>Archetype Created Web Application</display-name>
   
+  	<listener>
+    	<listener-class>com.sharegame.web.context.WebAppContextListener</listener-class>
+  	</listener>
+  
 	<servlet>
     	<servlet-name>LoginServlet</servlet-name>
         <servlet-class>com.sharegame.web.servlets.LoginServlet</servlet-class>
