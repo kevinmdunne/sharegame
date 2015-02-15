@@ -1,20 +1,61 @@
 <html>
 <head>
+	<script src="js/jquery-1.11.2.js"></script>
+	<script src="js/ajax.js"></script>
+	
+	<link rel="stylesheet" type="text/css" href="css/index.css">
+	
+	<script>
+ 		function login() {
+ 			var email = $('#email').val();
+ 			var password = $('#password').val();
+    		var data = {
+    			email : email,
+    			password : password
+    		}
+    		
+    		makePostCall("login",data,loginSuccess,logingFailed);
+ 		}
+ 		
+ 		function loginSuccess(result){
+ 			if(!result.success){
+ 				var div = $('#login_feedback');
+ 				div.html("Login failed: " + result.message);
+ 				div.slideDown();
+ 			}else{
+ 				var url = result.redirect;
+ 				window.location = url;
+ 			}
+ 		}
+ 		
+ 		function logingFailed(xhr,status,error){
+ 			var div = $('#login_feedback');
+ 			div.html("Call to login service failed.");
+ 			div.slideDown();
+ 		}
+	</script>
+
 	<title>The Share Game</title>
 </head>
 <body>
 <h2>Welcome to the ShareGame</h2>
 
-<form method="post" action="login">
 	<p>Please log in</p>
 	Email address:<br/>
-	<input type="text" name="email">
+	<input type="text" id="email" name="email">
 	<br/>
  	Password:<br>
-	<input type="password" name="password">
+	<input type="password" id="password" name="password">
 	<br/><br/>
-	<input type="submit" value="Login">
-</form>
+	
+	<button onclick="login()">Log me in</button> 
+
+<div class='login_feedback' id='login_feedback'></div>
+
+<script>
+var div = $('#login_feedback');
+div.hide();
+</script>
 
 <p>No account? <a href='register.html'>Register now</a></p>
 </body>

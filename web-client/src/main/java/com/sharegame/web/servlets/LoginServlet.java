@@ -8,6 +8,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.json.JSONObject;
+
 import com.mini.connection.MicroServiceConnection;
 import com.mini.data.MicroserviceRequest;
 import com.mini.data.MicroserviceResponse;
@@ -22,7 +24,10 @@ public class LoginServlet extends HttpServlet{
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		PrintWriter out = response.getWriter();
-
+		response.setContentType("application/json");
+		
+		JSONObject object = new JSONObject();
+		
 		String email = request.getParameter("email");
 		String password = request.getParameter("password");
 		
@@ -40,15 +45,17 @@ public class LoginServlet extends HttpServlet{
 			MicroserviceResponse msResponse = connection.request(msRequest);
 			
 			if(msResponse.getStatus() == MicroserviceResponse.SUCCESS){
-				out.println("You have logged in");
+				object.put("success", true);
+				object.put("redirect", "home.html");
 			}else{
-				out.println("Log in failed.");
-				out.println(msResponse.getStatusMessage());
+				object.put("success", false);
+				object.put("message", msResponse.getStatusMessage());
 			}
 		}catch(Exception e){
 			e.printStackTrace();
 		}
 		
+		out.print(object);
 		out.flush();
 		out.close();
 	}
