@@ -15,6 +15,7 @@
     <modules>
         <module>user-authentication</module>
 		<module>user-creation</module>
+    <module>user-networth</module>
   </modules>
 
 </project>

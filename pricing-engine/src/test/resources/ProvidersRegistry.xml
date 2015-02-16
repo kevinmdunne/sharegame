@@ -1,0 +1,5 @@
+<providers>
+	<provider>
+		<classname>com.sharegame.pricing.provider.ISEQPriceProvider</classname>
+	</provider>
+</providers>
