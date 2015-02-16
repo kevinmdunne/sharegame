@@ -2,6 +2,7 @@ package com.sharegame.dal.dao;
 
 import com.sharegame.model.market.Market;
 import com.sharegame.model.portfolio.Portfolio;
+import com.sharegame.model.stock.Stock;
 import com.sharegame.model.user.User;
 
 public class DAOFactory {
@@ -27,6 +28,8 @@ public class DAOFactory {
 			return new PortfolioDAO();
 		}  else if(object instanceof Market){
 			return new MarketDAO();
+		} else if(object instanceof Stock){
+			return new StockDAO();
 		}
 		return null;
 

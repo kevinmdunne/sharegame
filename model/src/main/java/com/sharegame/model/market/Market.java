@@ -27,7 +27,7 @@ public class Market implements Serializable{
 	@Column(name = "symbol")
     private String symbol;
 	
-	@OneToMany (fetch = FetchType.LAZY, cascade=CascadeType.ALL )
+	@OneToMany (fetch = FetchType.EAGER, cascade=CascadeType.ALL )
     private List<Stock> stocks;
     
     @Id @GeneratedValue

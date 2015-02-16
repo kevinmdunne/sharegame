@@ -9,13 +9,10 @@ import com.sharegame.model.stock.Stock;
 import com.sharegame.pricing.provider.PriceProvider;
 import com.sharegame.pricing.provider.ProvidersRegistry;
 
-
 public class UpdatePricesJob implements Runnable {
-
-	//private DALService service;
 	
 	public UpdatePricesJob(){
-		//service = new DALService();
+
 	}
 	
 	@Override
@@ -26,17 +23,10 @@ public class UpdatePricesJob implements Runnable {
 				List<Class<? extends PriceProvider>> providers = registry.getProivders();
 
 				for (Class<? extends PriceProvider> clazz : providers) {
-					System.out.println("Instantiating provider");
 					PriceProvider provider = clazz.newInstance();
-					System.out.println("Fetching market");
 					Market market = this.getMarket(provider);
-					System.out.println("Getting stocks");
 					List<Stock> stocks = provider.getStockPrices();
-					System.out.println("Merging stocks");
-//					List<Stock> merged = this.mergeStocks(stocks);
-					market.getStocks().clear();
-					market.setStocks(stocks);
-					System.out.println("Saving objects");
+					this.mergeStocks(stocks,market);
 					DataAccessObject<Market> dao = (DataAccessObject<Market>) DAOFactory.getInstance().getDAO(market);
 					dao.save(market);
 				}
@@ -52,19 +42,23 @@ public class UpdatePricesJob implements Runnable {
 		}
 	}
 	
-//	private Set<Stock> mergeStocks(List<Stock> stocks){
-//		List<Stock> results = new ArrayList<Stock>();
-//		Set<Stock> results = new 
-//		for(Stock stock : stocks){
-//			List<Object> fetchResults = service.fetch(stock);
-//			if(fetchResults.isEmpty()){
-//				results.add(stock);
-//			}else{
-//				results.add((Stock)fetchResults.get(0));
-//			}
-//		}
-//		return results;
-//	}
+	private void mergeStocks(List<Stock> stocks,Market market){
+		List<Stock> marketStocks = market.getStocks();
+		boolean found = false;
+		for(Stock stock : stocks){
+			for(Stock marketStock : marketStocks){
+				if(marketStock.getSymbol().equals(stock.getSymbol())){
+					marketStock.setPrice(stock.getPrice());
+					found = true;
+					break;
+				}
+			}
+			if(!found){
+				market.getStocks().add(stock);
+			}
+			found = false;
+		}
+	}
 
 	private Market getMarket(PriceProvider provider) {
 		String marketSymbol = provider.getMarketSymbol();
