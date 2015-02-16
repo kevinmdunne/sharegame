@@ -1,5 +1,6 @@
 package com.sharegame.dal.sql;
 
+import com.sharegame.model.market.Market;
 import com.sharegame.model.portfolio.Portfolio;
 import com.sharegame.model.user.User;
 
@@ -24,6 +25,8 @@ public class SQLGeneratorFactory {
 			return new UserSQLGenerator();
 		} else if (object instanceof Portfolio) {
 			return new PortfolioSQLGenerator();
+		} else if(object instanceof Market){
+			return new MarketSQLGenerator();
 		}
 
 		return null;

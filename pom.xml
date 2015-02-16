@@ -13,6 +13,7 @@
 		<module>services</module>
 		<module>dal</module>
     <module>web-client</module>
+    <module>pricing-engine</module>
   </modules>
 
 </project>

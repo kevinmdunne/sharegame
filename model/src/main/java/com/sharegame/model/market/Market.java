@@ -1,18 +1,41 @@
 package com.sharegame.model.market;
 
-import java.util.Set;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 import com.sharegame.model.stock.Stock;
 
-public class Market {
+@Entity
+@Table(name = "MARKET")
+public class Market implements Serializable{
 
+	private static final long serialVersionUID = 8767644430840459593L;
+
+	@Column(name = "name")
     private String name;
+	
+	@Column(name = "symbol")
     private String symbol;
-    private Set<Stock> stocks;
+	
+	@OneToMany (fetch = FetchType.LAZY, cascade=CascadeType.ALL )
+    private List<Stock> stocks;
+    
+    @Id @GeneratedValue
+    @Column(name = "id")
     private long id;
     
     public Market(){
-    	
+    	stocks = new ArrayList<Stock>();
     }
 
 	public String getName() {
@@ -31,11 +54,11 @@ public class Market {
 		this.symbol = symbol;
 	}
 
-	public Set<Stock> getStocks() {
+	public List<Stock> getStocks() {
 		return stocks;
 	}
 
-	public void setStocks(Set<Stock> stocks) {
+	public void setStocks(List<Stock> stocks) {
 		this.stocks = stocks;
 	}
 
@@ -46,7 +69,4 @@ public class Market {
 	public void setId(long id) {
 		this.id = id;
 	}
-    
-    
-
 }
