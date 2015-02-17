@@ -1,5 +1,7 @@
 package com.sharegame.pricing.engine;
 
+import java.util.Scanner;
+
 public class PricingEngine {
 	
 	private UpdatePricesJob job;
@@ -40,7 +42,12 @@ public class PricingEngine {
 	}
 	
 	public static void main(String[] args){
+		System.out.println("Starting pricing engine");
 		PricingEngine engine = new PricingEngine();
 		engine.start();
+		
+		new Scanner(System.in).nextLine();
+		System.out.println("Stopping pricing engine");
+		engine.stop();
 	}
 }

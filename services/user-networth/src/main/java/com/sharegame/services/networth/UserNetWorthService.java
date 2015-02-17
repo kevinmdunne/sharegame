@@ -1,5 +1,6 @@
 package com.sharegame.services.networth;
 
+import java.util.List;
 import java.util.Scanner;
 
 import com.mini.data.MicroserviceRequest;
@@ -11,6 +12,9 @@ import com.mini.io.adapter.QueueAdapterFactory;
 import com.mini.io.exception.QueueException;
 import com.mini.io.metadata.QueueMetaData;
 import com.mini.microservice.AbstractMicroservice;
+import com.sharegame.dal.dao.DAOFactory;
+import com.sharegame.dal.dao.DataAccessObject;
+import com.sharegame.model.portfolio.Portfolio;
 import com.sharegame.model.user.User;
 
 public class UserNetWorthService extends AbstractMicroservice{
@@ -30,7 +34,21 @@ public class UserNetWorthService extends AbstractMicroservice{
 			Object data = request.getPayload();
 			if(data instanceof User){
 				User user = (User)data;
-
+				
+				if(user.getUsername() != null && !user.getUsername().isEmpty()){
+					DataAccessObject<User> dao = (DataAccessObject<User>) DAOFactory.getInstance().getDAO(user);
+					List<User> users = dao.find(user);
+					if(!users.isEmpty()){
+						User realUser = users.get(0);
+						Portfolio portfolio = realUser.getPortfolio();
+						int netWorth = this.calculateNetWorth(portfolio);
+						response.setStatus(MicroserviceResponse.SUCCESS);
+						response.setPayload(new Integer(netWorth));
+					}else{
+						response.setStatus(MicroserviceResponse.FAILURE);
+						response.setStatusMessage("No user [" + user.getUsername() + "] found to calculate networth");
+					}
+				}
 			}else{
 				response.setStatus(MicroserviceResponse.FAILURE);
 				response.setStatusMessage("Invalid arguments for net worth service");
@@ -39,6 +57,12 @@ public class UserNetWorthService extends AbstractMicroservice{
 		}catch(QueueException e){
 			throw new ServiceExecutionException(e);
 		}
+	}
+	
+	private int calculateNetWorth(Portfolio portfolio){
+		int result = portfolio.getCashBalance();
+		
+		return result;
 	}
 
 	@Override
