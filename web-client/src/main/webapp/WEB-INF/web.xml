@@ -19,6 +19,16 @@
         <servlet-class>com.sharegame.web.servlets.CreateUserServlet</servlet-class>
     </servlet>
     
+    <servlet>
+    	<servlet-name>MicroServiceServlet</servlet-name>
+        <servlet-class>com.sharegame.web.servlets.MicroServiceServlet</servlet-class>
+    </servlet>
+    
+	<servlet-mapping>
+        <servlet-name>MicroServiceServlet</servlet-name>
+        <url-pattern>/microservice</url-pattern>
+    </servlet-mapping>
+    
 	<servlet-mapping>
         <servlet-name>CreateUserServlet</servlet-name>
         <url-pattern>/createuser</url-pattern>

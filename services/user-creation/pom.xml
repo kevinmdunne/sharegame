@@ -10,7 +10,7 @@
   <artifactId>user-creation</artifactId>
   <packaging>jar</packaging>
   <version>1.0-SNAPSHOT</version>
-  <name>user-creation</name>
+  <name>user-creation service</name>
 
   <dependencies>
 	<dependency>

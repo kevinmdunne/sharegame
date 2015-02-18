@@ -14,7 +14,9 @@ import com.mini.io.metadata.QueueMetaData;
 import com.mini.microservice.AbstractMicroservice;
 import com.sharegame.dal.dao.DAOFactory;
 import com.sharegame.dal.dao.DataAccessObject;
+import com.sharegame.model.portfolio.Holding;
 import com.sharegame.model.portfolio.Portfolio;
+import com.sharegame.model.stock.Stock;
 import com.sharegame.model.user.User;
 
 public class UserNetWorthService extends AbstractMicroservice{
@@ -61,6 +63,13 @@ public class UserNetWorthService extends AbstractMicroservice{
 	
 	private int calculateNetWorth(Portfolio portfolio){
 		int result = portfolio.getCashBalance();
+		List<Holding> holdings = portfolio.getHoldings();
+		
+		for(Holding holding : holdings){
+			Stock stock = holding.getStock();
+			int amount = holding.getAmount();
+			result = result + (stock.getPrice() * amount);
+		}
 		
 		return result;
 	}

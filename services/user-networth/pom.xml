@@ -10,7 +10,7 @@
   <groupId>com.sharegame.services</groupId>
   <artifactId>user-networth</artifactId>
   <version>1.0-SNAPSHOT</version>
-  <name>user-networth</name>
+  <name>user-networth service</name>
 
   <dependencies>
   <dependency>

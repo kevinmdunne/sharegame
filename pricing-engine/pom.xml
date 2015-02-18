@@ -10,7 +10,7 @@
   <groupId>com.sharegame</groupId>
   <artifactId>pricing-engine</artifactId>
   <version>1.0-SNAPSHOT</version>
-  <name>pricing-engine</name>
+  <name>The Share Game Pricing Engine</name>
 
   <dependencies>
     <dependency>

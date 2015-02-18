@@ -4,6 +4,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
 import com.sharegame.model.market.Market;
+import com.sharegame.model.portfolio.Holding;
 import com.sharegame.model.portfolio.Portfolio;
 import com.sharegame.model.stock.Stock;
 import com.sharegame.model.user.User;
@@ -28,6 +29,7 @@ public class HibernateAccessManager {
 		config.addAnnotatedClass(Portfolio.class);
 		config.addAnnotatedClass(Market.class);
 		config.addAnnotatedClass(Stock.class);
+		config.addAnnotatedClass(Holding.class);
 		
 		sessionFactory = config.buildSessionFactory();
 	}
