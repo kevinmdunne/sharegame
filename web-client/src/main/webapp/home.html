@@ -1,8 +1,43 @@
 <html>
 	<head>
+		<script src="js/jquery-1.11.2.js"></script>
+		<script src="js/jquery.cookie.js"></script>
+		<script src="js/ajax.js"></script>
+		
+		<link rel="stylesheet" type="text/css" href="css/home.css">
 	
+		<title>The Share Game</title>
 	</head>
 	<body>
-		<h1>HOME PAGE</h1>
+			<div id='title_div' class='title_div'>The Share Game</div>
+			<hr width='100%'/>
+			<div id='name_div' class='name_div'></div>
+		<hr width='100%'/>
+		<div id='networth_div'>Your net worth is : loading...</div>
+		
+		<script>
+			debugger;
+			var username = $.cookie('username');
+			var realname = $.cookie('realname');
+			
+			var welcomeDiv = $('#name_div');
+			var netWorthDiv = $('#networth_div');
+			
+			welcomeDiv.html("Welcome " + realname);
+			
+			var user = "{username:" + username + "}";
+			
+			var data = {
+				serviceid:'com.sharegame.services.networth.UserNetWorthService',
+				className:'com.sharegame.model.user.User',
+				payload:user
+			}
+			makePostCall('microservice',data,
+			function(result){
+				netWorthDiv.html("Your net worth is : " + result.result + ".");
+			},function(){
+				alert('Service call failed');
+			});
+		</script>
 	</body>
 </html>

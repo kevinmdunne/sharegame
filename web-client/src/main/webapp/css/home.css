@@ -1,0 +1,16 @@
+.name_div{
+	float : right;
+	width : 48%;
+	text-align: right;
+	padding-right : 5px;
+	font-size:x-large;
+	vertical-align: text-top;
+}
+
+.title_div{
+	color: #d7ceb2;
+	text-shadow: 3px 3px 0px #2c2e38, 5px 5px 0px #5c5f72;
+	font: 60px 'BazarMedium';
+	letter-spacing: 10px;
+	width : 50%;
+}

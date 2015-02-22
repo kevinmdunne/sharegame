@@ -27,7 +27,7 @@ public class MicroServiceServlet extends HttpServlet{
 		
 		String serviceID = request.getParameter("serviceid");
 		String className = request.getParameter("className");
-		String objectJSON = request.getParameter("json");
+		String objectJSON = request.getParameter("payload");
 		
 		try{
 			Class<?> clazz = Class.forName(className);

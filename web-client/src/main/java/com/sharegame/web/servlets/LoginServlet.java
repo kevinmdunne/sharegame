@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -47,6 +48,11 @@ public class LoginServlet extends HttpServlet{
 			if(msResponse.getStatus() == MicroserviceResponse.SUCCESS){
 				object.put("success", true);
 				object.put("redirect", "home.html");
+				User loggedInUser = (User)msResponse.getPayload();
+				Cookie realNameCookie = new Cookie("realname", loggedInUser.getFirstname());
+				Cookie usernameCookie = new Cookie("username", loggedInUser.getUsername());
+				response.addCookie(usernameCookie);
+				response.addCookie(realNameCookie);
 			}else{
 				object.put("success", false);
 				object.put("message", msResponse.getStatusMessage());

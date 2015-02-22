@@ -37,6 +37,7 @@ public class UserAuthenticationService extends AbstractMicroservice{
 					DataAccessObject<User> dao = (DataAccessObject<User>) DAOFactory.getInstance().getDAO(user);
 					List<User> users = dao.find(user);
 					if(!users.isEmpty()){
+						response.setPayload(users.get(0));
 						response.setStatus(MicroserviceResponse.SUCCESS);
 					}else{
 						response.setStatus(MicroserviceResponse.FAILURE);
