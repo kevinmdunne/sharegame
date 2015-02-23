@@ -8,9 +8,9 @@
     <version>1.0-SNAPSHOT</version>
   </parent>
   <groupId>com.sharegame.services</groupId>
-  <artifactId>user-networth</artifactId>
+  <artifactId>sell-stock-service</artifactId>
   <version>1.0-SNAPSHOT</version>
-  <name>user-networth service</name>
+  <name>sell-stock service</name>
 
   <dependencies>
 	<dependency>
@@ -45,7 +45,7 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
-    <build>
+      <build>
 	<plugins>
 		<plugin>
 			<groupId>org.apache.maven.plugins</groupId>
@@ -57,7 +57,7 @@
 			  <archive>
 				<manifest>
 					<addClasspath>true</addClasspath>
-					<mainClass>com.sharegame.services.networth.UserNetWorthService</mainClass>
+					<mainClass>com.sharegame.services.stock.SellStockService</mainClass>
 				</manifest>
 			  </archive>
 

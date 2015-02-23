@@ -15,7 +15,9 @@
     <modules>
         <module>user-authentication</module>
 		<module>user-creation</module>
-    <module>user-networth</module>
+		<module>user-networth</module>
+		<module>sell-stock-service</module>
+		<module>buy-stock-service</module>
   </modules>
 
 </project>
