@@ -1,27 +1,53 @@
 <html>
 	<head>
 		<script src="js/jquery-1.11.2.js"></script>
+		<script src="js/jquery-ui.js"></script>
 		<script src="js/jquery.cookie.js"></script>
 		<script src="js/ajax.js"></script>
+		<script src="js/portfolio-utils.js"></script>
+		<script src="js/sell-shares.js"></script>
+		<script src="js/buy-shares.js"></script>
 		
 		<link rel="stylesheet" type="text/css" href="css/home.css">
+		<link rel="stylesheet" type="text/css" href="css/button.css">
+		<link rel="stylesheet" type="text/css" href="css/jquery-ui.css">
 	
 		<title>The Share Game</title>
+		<style>
+    		label, input, select { display:block; }
+    		input.text { margin-bottom:12px; width:95%; padding: .4em; }
+    		select.text { margin-bottom:12px; width:95%; padding: .4em; }
+    		fieldset { padding:0; border:0; margin-top:25px; }
+  		</style>
+
+		
+		
 	</head>
 	<body>
-			<div id='title_div' class='title_div'>The Share Game</div>
-			<hr width='100%'/>
-			<div id='name_div' class='name_div'></div>
+		<div id='title_div' class='title_div'>The Share Game</div>
 		<hr width='100%'/>
-		<div id='networth_div'>Your net worth is : loading...</div>
-		
+		<div id='name_div' class='name_div'></div>
+		<hr width='100%'/>
+		<div class='networth_div' id='networth_div'>Your net worth is : loading...</div>
+		<div class='portfolio_div' id='portfolio_div'>
+			<table border='1' width='90%'>
+				<tr>
+					<td>StockA</td>
+					<td>1000</td>
+				</tr>
+				<tr>
+					<td>StockB</td>
+					<td>500</td>
+				</tr>
+			</table>
+		</div>
 		<script>
-			debugger;
 			var username = $.cookie('username');
 			var realname = $.cookie('realname');
 			
 			var welcomeDiv = $('#name_div');
 			var netWorthDiv = $('#networth_div');
+			var portfolioDiv = $('#portfolio_div');
 			
 			welcomeDiv.html("Welcome " + realname);
 			
@@ -38,6 +64,45 @@
 			},function(){
 				alert('Service call failed');
 			});
+			
+			//createPortfolioGrid(username,portfolioDiv);
 		</script>
+		<hr width='100%'/>
+		<div id='button-bar' class='button_bar'>
+		<div class='share_game_button'>
+			<div class="button-wrapper">
+				<a href="javascript:buyShares($('#dialog-form'));" class="button light">Buy Shares</a>
+			</div>
+		</div>
+		<div class='share_game_button'>
+			<div class="button-wrapper">
+				<a href="javascript:sellShares();" class="button light">Sell Shares</a>
+			</div>
+		</div>
+		</div>
+		
+		
+		<!-- DIALOG STUFF -->
+		<div id="dialog-form" title="Buy Shares">
+  			<p class="validateTips">Select a stock and enter an amount.</p>
+
+  			<form>
+    			<fieldset>
+      				<label for="name">Stock</label>
+      				<div id='stocksDropdown'></div>
+      				<!--<select name="stock" id="stock" class="text ui-widget-content ui-corner-all">
+   						<option value="volvo">Volvo</option>
+   						<option value="saab">Saab</option>
+   						<option value="mercedes">Mercedes</option>
+   						<option value="audi">Audi</option>
+					</select> -->
+      				
+      				<label for="email">Quantity</label>
+      				<input type="text" name="quantity" id="quantity" value="1" class="text ui-widget-content ui-corner-all">
+    			</fieldset>
+  			</form>
+		</div>
+
+
 	</body>
 </html>

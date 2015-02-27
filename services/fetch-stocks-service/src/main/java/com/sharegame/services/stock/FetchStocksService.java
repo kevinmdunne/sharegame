@@ -1,5 +1,6 @@
 package com.sharegame.services.stock;
 
+import java.util.List;
 import java.util.Scanner;
 
 import com.mini.data.MicroserviceRequest;
@@ -11,12 +12,15 @@ import com.mini.io.adapter.QueueAdapterFactory;
 import com.mini.io.exception.QueueException;
 import com.mini.io.metadata.QueueMetaData;
 import com.mini.microservice.AbstractMicroservice;
+import com.sharegame.dal.dao.DAOFactory;
+import com.sharegame.dal.dao.DataAccessObject;
+import com.sharegame.model.market.Market;
 
-public class BuyStockService extends AbstractMicroservice{
+public class FetchStocksService extends AbstractMicroservice{
 
-	private static final String ID = "com.sharegame.services.stock.BuyStockService";
+	private static final String ID = "com.sharegame.services.stock.FetchStocksService";
 
-	public BuyStockService(IQueueAdapter queueAdapter){
+	public FetchStocksService(IQueueAdapter queueAdapter){
 		super(queueAdapter);
 	}
 	
@@ -25,6 +29,23 @@ public class BuyStockService extends AbstractMicroservice{
 		MicroserviceResponse response = new MicroserviceResponse();
 		response.setCorrelationID(request.getCorrelationID());
 		try{
+			Object data = request.getPayload();
+			if(data instanceof Market){
+				Market market = (Market)data;
+
+				DataAccessObject<Market> dao = (DataAccessObject<Market>) DAOFactory.getInstance().getDAO(market);
+				List<Market> markets = dao.find(market);
+				if(!markets.isEmpty()){
+					response.setPayload(markets.get(0).getStocks());
+					response.setStatus(MicroserviceResponse.SUCCESS);
+				}else{
+					response.setStatus(MicroserviceResponse.FAILURE);
+					response.setStatusMessage("No such market");
+				}
+			}else{
+				response.setStatus(MicroserviceResponse.FAILURE);
+				response.setStatusMessage("Invalid arguments for stock fetch service");
+			}
 			sendResponse(response);
 		}catch(QueueException e){
 			throw new ServiceExecutionException(e);
@@ -35,7 +56,7 @@ public class BuyStockService extends AbstractMicroservice{
 	public String getID() {
 		return ID;
 	}
-	
+
 	public static void main(String[] args){   
 		try{
 			if(args.length == 3){
@@ -46,7 +67,7 @@ public class BuyStockService extends AbstractMicroservice{
 				QueueMetaData queueData = new QueueMetaData(queueName, serverURL);
 				QueueAdapterFactory factory = QueueAdapterFactory.getInstance();
 				QueueAdapter queueAdapter = factory.createAdapter(adapterClassName, queueData);
-				BuyStockService service = new BuyStockService(queueAdapter);
+				FetchStocksService service = new FetchStocksService(queueAdapter);
 				service.start();
 				
 				new Scanner(System.in).nextLine();

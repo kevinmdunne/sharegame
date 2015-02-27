@@ -1,5 +1,6 @@
-package com.sharegame.services.stock;
+package com.sharegame.services.portfolio;
 
+import java.util.List;
 import java.util.Scanner;
 
 import com.mini.data.MicroserviceRequest;
@@ -11,12 +12,15 @@ import com.mini.io.adapter.QueueAdapterFactory;
 import com.mini.io.exception.QueueException;
 import com.mini.io.metadata.QueueMetaData;
 import com.mini.microservice.AbstractMicroservice;
+import com.sharegame.dal.dao.DAOFactory;
+import com.sharegame.dal.dao.DataAccessObject;
+import com.sharegame.model.user.User;
 
-public class BuyStockService extends AbstractMicroservice{
+public class FetchPortfolioService extends AbstractMicroservice{
 
-	private static final String ID = "com.sharegame.services.stock.BuyStockService";
+	private static final String ID = "com.sharegame.services.portfolio.FetchPortfolioService";
 
-	public BuyStockService(IQueueAdapter queueAdapter){
+	public FetchPortfolioService(IQueueAdapter queueAdapter){
 		super(queueAdapter);
 	}
 	
@@ -25,6 +29,24 @@ public class BuyStockService extends AbstractMicroservice{
 		MicroserviceResponse response = new MicroserviceResponse();
 		response.setCorrelationID(request.getCorrelationID());
 		try{
+			Object data = request.getPayload();
+			if(data instanceof String){
+				String username = data.toString();
+				User user = new User();
+				user.setUsername(username);
+				DataAccessObject<User> dao = (DataAccessObject<User>) DAOFactory.getInstance().getDAO(user);
+				List<User> users = dao.find(user);
+				if(!users.isEmpty()){
+					response.setPayload(users.get(0).getPortfolio());
+					response.setStatus(MicroserviceResponse.SUCCESS);
+				}else{
+					response.setStatus(MicroserviceResponse.FAILURE);
+					response.setStatusMessage("No such user");
+				}
+			}else{
+				response.setStatus(MicroserviceResponse.FAILURE);
+				response.setStatusMessage("Invalid arguments for portfolio fetch service");
+			}
 			sendResponse(response);
 		}catch(QueueException e){
 			throw new ServiceExecutionException(e);
@@ -46,7 +68,7 @@ public class BuyStockService extends AbstractMicroservice{
 				QueueMetaData queueData = new QueueMetaData(queueName, serverURL);
 				QueueAdapterFactory factory = QueueAdapterFactory.getInstance();
 				QueueAdapter queueAdapter = factory.createAdapter(adapterClassName, queueData);
-				BuyStockService service = new BuyStockService(queueAdapter);
+				FetchPortfolioService service = new FetchPortfolioService(queueAdapter);
 				service.start();
 				
 				new Scanner(System.in).nextLine();

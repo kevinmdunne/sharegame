@@ -1,6 +1,7 @@
 package com.sharegame.dal.sql;
 
 import com.sharegame.model.market.Market;
+import com.sharegame.model.portfolio.Holding;
 import com.sharegame.model.portfolio.Portfolio;
 import com.sharegame.model.stock.Stock;
 import com.sharegame.model.user.User;
@@ -30,6 +31,8 @@ public class SQLGeneratorFactory {
 			return new MarketSQLGenerator();
 		} else if(object instanceof Stock){
 			return new StockSQLGenerator();
+		} else if(object instanceof Holding){
+			return new HoldingSQLGenerator();
 		}
 
 		return null;

@@ -18,6 +18,8 @@
 		<module>user-networth</module>
 		<module>sell-stock-service</module>
 		<module>buy-stock-service</module>
+		<module>fetch-portfolio-service</module>
+		<module>fetch-stocks-service</module>
   </modules>
 
 </project>
