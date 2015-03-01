@@ -17,7 +17,7 @@ public abstract class AbstractDAO<T> implements DataAccessObject<T> {
     	SessionFactory factory = HibernateAccessManager.getInstance().getSessionFactory();
      	Session session = factory.getCurrentSession();
      	session.beginTransaction();
-     	session.save(object);
+     	session.saveOrUpdate(object);
     	session.getTransaction().commit();
      	return true;
     }

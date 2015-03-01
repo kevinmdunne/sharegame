@@ -6,7 +6,28 @@ function executeBuy(){
 	var stock = $("#stock").val();
 	var quantity = $("#quantity").val();
 	
-	alert("Buy " + quantity + " of " + stock);
+	var username = $.cookie('username');
+	
+	var order = {
+			"amount" : quantity,
+			"type" : "BUY",
+			"username" : username,
+			"stock" : {"symbol" : stock}
+		}
+	var orderString = JSON.stringify(order);
+	
+	var data = {
+			serviceid:'com.sharegame.services.stock.BuyStockService',
+			className:'com.sharegame.model.order.Order',
+			payload: orderString
+		}
+	
+	makePostCall('microservice',data,
+			function(result){
+				dialog.dialog( "close" );
+			},function(){
+				alert('Service call failed');
+			});
 }
 
 function displayDialog(stocks){
