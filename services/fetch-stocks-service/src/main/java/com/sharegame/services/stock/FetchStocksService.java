@@ -68,6 +68,7 @@ public class FetchStocksService extends AbstractMicroservice{
 				QueueAdapterFactory factory = QueueAdapterFactory.getInstance();
 				QueueAdapter queueAdapter = factory.createAdapter(adapterClassName, queueData);
 				FetchStocksService service = new FetchStocksService(queueAdapter);
+				System.out.println("Starting " + service.getID());
 				service.start();
 				
 				new Scanner(System.in).nextLine();

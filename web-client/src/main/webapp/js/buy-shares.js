@@ -1,8 +1,10 @@
+var buySharesDialog;
+
 function buyShares(div){
 	getShares();
 }
 
-function executeBuy(){
+function executeBuy(dialog){
 	var stock = $("#stock").val();
 	var quantity = $("#quantity").val();
 	
@@ -24,7 +26,26 @@ function executeBuy(){
 	
 	makePostCall('microservice',data,
 			function(result){
-				dialog.dialog( "close" );
+				buySharesDialog.dialog( "close" );
+				var div = $("<div title='Order executed'><p>Shares successfully purchased.</p><div>");
+				
+				var confirmDialog = div.dialog({
+					autoOpen: true,
+					modal: true,
+					buttons: {
+					      "Dismiss": function(){
+					    	  confirmDialog.dialog("close");
+					    	  var portfolioDiv = $('#portfolio_div');
+					    	  createPortfolioGrid(username,portfolioDiv)
+					    	  }
+					    }
+					,
+					close: function() {
+						var portfolioDiv = $('#portfolio_div');
+						createPortfolioGrid(username,portfolioDiv)
+					}
+				}
+				);
 			},function(){
 				alert('Service call failed');
 			});
@@ -46,8 +67,9 @@ function displayDialog(stocks){
 	dropdownStock.html(html);
 	
 	var dialogDiv = $('#dialog-form');
+	dialogDiv.removeClass('not-to-be-shown');
 	
-		var dialog = dialogDiv.dialog({
+	buySharesDialog = dialogDiv.dialog({
 	    autoOpen: true,
 	    height: 380,
 	    width: 450,
@@ -56,13 +78,11 @@ function displayDialog(stocks){
 	    buttons: {
 	      "Buy Shares": executeBuy,
 	      Cancel: function() {
-	      	dialog.dialog( "close" );
+	    	  buySharesDialog.dialog( "close" );
 	      }
 	    },
 	
-	    close: function() {
-
-	    }
+	    close: function() {}
   });
 }
 

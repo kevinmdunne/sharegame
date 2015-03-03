@@ -6,10 +6,25 @@ function createPortfolioGrid(username,containerDiv){
 		}
 		makePostCall('microservice',data,
 		function(result){
-			debugger;
-			netWorthDiv.html("Your net worth is : " + result.result + ".");
+			var portfolio = JSON.parse(result.result);
+			_drawGrid(portfolio,containerDiv);
 		},function(blah,blah2){
-			debugger;
 			alert('Service call failed');
 		});
+}
+
+function _drawGrid(portfolio,containerDiv){
+	console.log(portfolio);
+	var html = "<table border='1' width='90%'>";
+	var holdings = portfolio.holdings;
+	for(var i = 0;i < holdings.length;i++){
+		var holding = holdings[i];
+		var stock = holding.stock;
+		var amount = holding.amount;
+		
+		html += "<tr><td>"+stock.stockName+"</td><td>"+amount+"</td></tr>"
+	}
+	
+	html += "</table>";
+	containerDiv.html(html);
 }

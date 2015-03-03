@@ -73,6 +73,7 @@ public class UserAuthenticationService extends AbstractMicroservice{
 				QueueAdapterFactory factory = QueueAdapterFactory.getInstance();
 				QueueAdapter queueAdapter = factory.createAdapter(adapterClassName, queueData);
 				UserAuthenticationService service = new UserAuthenticationService(queueAdapter);
+				System.out.println("Starting " + service.getID());
 				service.start();
 				
 				new Scanner(System.in).nextLine();

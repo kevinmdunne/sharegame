@@ -29,18 +29,7 @@
 		<div id='name_div' class='name_div'></div>
 		<hr width='100%'/>
 		<div class='networth_div' id='networth_div'>Your net worth is : loading...</div>
-		<div class='portfolio_div' id='portfolio_div'>
-			<table border='1' width='90%'>
-				<tr>
-					<td>StockA</td>
-					<td>1000</td>
-				</tr>
-				<tr>
-					<td>StockB</td>
-					<td>500</td>
-				</tr>
-			</table>
-		</div>
+		<div class='portfolio_div' id='portfolio_div'>Your portfolio is loading...</div>
 		<script>
 			var username = $.cookie('username');
 			var realname = $.cookie('realname');
@@ -65,7 +54,7 @@
 				alert('Service call failed');
 			});
 			
-			//createPortfolioGrid(username,portfolioDiv);
+			createPortfolioGrid(username,portfolioDiv);
 		</script>
 		<hr width='100%'/>
 		<div id='button-bar' class='button_bar'>
@@ -83,20 +72,13 @@
 		
 		
 		<!-- DIALOG STUFF -->
-		<div id="dialog-form" title="Buy Shares">
-  			<p class="validateTips">Select a stock and enter an amount.</p>
+		<div class="not-to-be-shown" id="dialog-form" title="Buy Shares">
+  			<p>Select a stock and enter an amount.</p>
 
   			<form>
     			<fieldset>
       				<label for="name">Stock</label>
       				<div id='stocksDropdown'></div>
-      				<!--<select name="stock" id="stock" class="text ui-widget-content ui-corner-all">
-   						<option value="volvo">Volvo</option>
-   						<option value="saab">Saab</option>
-   						<option value="mercedes">Mercedes</option>
-   						<option value="audi">Audi</option>
-					</select> -->
-      				
       				<label for="email">Quantity</label>
       				<input type="text" name="quantity" id="quantity" value="1" class="text ui-widget-content ui-corner-all">
     			</fieldset>

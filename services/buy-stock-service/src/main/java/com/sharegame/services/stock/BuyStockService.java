@@ -52,7 +52,20 @@ public class BuyStockService extends AbstractMicroservice{
 				
 				if(!users.isEmpty()){
 					User realUser = users.get(0);
-					realUser.getPortfolio().getHoldings().add(holding);
+					List<Holding> holdings = realUser.getPortfolio().getHoldings();
+					boolean updatedExisting = false;
+					for(Holding h : holdings){
+						if(h.getStock().getSymbol().equals(holding.getStock().getSymbol())){
+							int currentAmount = h.getAmount();
+							int newAmount = holding.getAmount();
+							h.setAmount(currentAmount + newAmount);
+							updatedExisting = true;
+							break;
+						}
+					}
+					if(!updatedExisting){
+						realUser.getPortfolio().getHoldings().add(holding);
+					}
 					userDAO.save(realUser);
 				}else{
 					response.setStatus(MicroserviceResponse.FAILURE);
@@ -89,6 +102,7 @@ public class BuyStockService extends AbstractMicroservice{
 				QueueAdapterFactory factory = QueueAdapterFactory.getInstance();
 				QueueAdapter queueAdapter = factory.createAdapter(adapterClassName, queueData);
 				BuyStockService service = new BuyStockService(queueAdapter);
+				System.out.println("Starting " + service.getID());
 				service.start();
 				
 				new Scanner(System.in).nextLine();

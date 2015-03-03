@@ -90,6 +90,7 @@ public class UserNetWorthService extends AbstractMicroservice{
 				QueueAdapterFactory factory = QueueAdapterFactory.getInstance();
 				QueueAdapter queueAdapter = factory.createAdapter(adapterClassName, queueData);
 				UserNetWorthService service = new UserNetWorthService(queueAdapter);
+				System.out.println("Starting " + service.getID());
 				service.start();
 				
 				new Scanner(System.in).nextLine();
