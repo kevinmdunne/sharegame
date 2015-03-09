@@ -14,7 +14,6 @@ function createPortfolioGrid(username,containerDiv){
 }
 
 function _drawGrid(portfolio,containerDiv){
-	console.log(portfolio);
 	var html = "<table border='1' width='90%'>";
 	var holdings = portfolio.holdings;
 	for(var i = 0;i < holdings.length;i++){
@@ -27,4 +26,18 @@ function _drawGrid(portfolio,containerDiv){
 	
 	html += "</table>";
 	containerDiv.html(html);
+}
+
+function getShares(success_function){
+	var market = "{symbol: ISEQ }";
+	
+	var data = {
+			serviceid:'com.sharegame.services.stock.FetchStocksService',
+			className:'com.sharegame.model.market.Market',
+			payload:market
+		}
+		makePostCall('microservice',data,success_function,
+		function(){
+			alert('Failed to load stocks');
+		});
 }

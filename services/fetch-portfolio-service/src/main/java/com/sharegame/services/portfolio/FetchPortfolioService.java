@@ -69,6 +69,7 @@ public class FetchPortfolioService extends AbstractMicroservice{
 				QueueAdapterFactory factory = QueueAdapterFactory.getInstance();
 				QueueAdapter queueAdapter = factory.createAdapter(adapterClassName, queueData);
 				FetchPortfolioService service = new FetchPortfolioService(queueAdapter);
+				System.out.println("Starting " + service.getID());
 				service.start();
 				
 				new Scanner(System.in).nextLine();

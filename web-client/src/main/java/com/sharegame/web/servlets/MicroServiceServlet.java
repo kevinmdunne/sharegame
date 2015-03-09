@@ -46,7 +46,8 @@ public class MicroServiceServlet extends HttpServlet{
 				object.put("result", result);
 				out.println(object);
 			}else{
-				response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, msResponse.getStatusMessage());
+				response.setStatus(500);
+				out.println(msResponse.getStatusMessage());
 			}
 		}catch(ClassNotFoundException e){
 			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Class " + className + " not found");
@@ -54,6 +55,8 @@ public class MicroServiceServlet extends HttpServlet{
 			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, e.getMessage());
 		}catch(QueueException e){
 			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, e.getMessage());
+		}finally{
+			out.flush();
 		}
 	}
 }

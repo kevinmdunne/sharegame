@@ -67,6 +67,7 @@ public class BuyStockService extends AbstractMicroservice{
 						realUser.getPortfolio().getHoldings().add(holding);
 					}
 					userDAO.save(realUser);
+					response.setStatus(MicroserviceResponse.SUCCESS);
 				}else{
 					response.setStatus(MicroserviceResponse.FAILURE);
 					response.setStatusMessage("No such user " + order.getUsername());
