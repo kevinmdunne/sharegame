@@ -20,6 +20,7 @@
 		<module>buy-stock-service</module>
 		<module>fetch-portfolio-service</module>
 		<module>fetch-stocks-service</module>
+    <module>leaderboard-service</module>
   </modules>
 
 </project>
