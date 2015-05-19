@@ -1,5 +1,7 @@
 package com.sharegame.services.user;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.Scanner;
 
 import com.mini.data.MicroserviceRequest;
@@ -11,6 +13,9 @@ import com.mini.io.adapter.QueueAdapterFactory;
 import com.mini.io.exception.QueueException;
 import com.mini.io.metadata.QueueMetaData;
 import com.mini.microservice.AbstractMicroservice;
+import com.sharegame.dal.dao.DAOFactory;
+import com.sharegame.dal.dao.DataAccessObject;
+import com.sharegame.model.user.User;
 
 public class LeaderBoardService extends AbstractMicroservice{
 
@@ -25,7 +30,15 @@ public class LeaderBoardService extends AbstractMicroservice{
 		MicroserviceResponse response = new MicroserviceResponse();
 		response.setCorrelationID(request.getCorrelationID());
 		try{
-			Object data = request.getPayload();
+			User user = new User();
+			DataAccessObject<User> dao = (DataAccessObject<User>) DAOFactory.getInstance().getDAO(user);
+			List<User> users = dao.find(user);
+			
+			Collections.sort(users, new UserComparison());
+			
+			response.setStatus(MicroserviceResponse.SUCCESS);
+			response.setPayload(users);
+			
 			sendResponse(response);
 		}catch(QueueException e){
 			throw new ServiceExecutionException(e);
