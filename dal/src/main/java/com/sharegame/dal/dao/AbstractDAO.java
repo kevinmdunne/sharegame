@@ -19,6 +19,8 @@ public abstract class AbstractDAO<T> implements DataAccessObject<T> {
      	session.beginTransaction();
      	session.saveOrUpdate(object);
     	session.getTransaction().commit();
+    	
+    	
      	return true;
     }
     

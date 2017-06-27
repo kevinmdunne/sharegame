@@ -45,7 +45,8 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
-      <build>
+    <build>
+	<finalName>${groupId}.${artifactId}</finalName>
 	<plugins>
 		<plugin>
 			<groupId>org.apache.maven.plugins</groupId>

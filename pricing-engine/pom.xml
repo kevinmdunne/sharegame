@@ -12,6 +12,9 @@
   <version>1.0-SNAPSHOT</version>
   <name>The Share Game Pricing Engine</name>
 
+	<build>
+		<finalName>${groupId}.${artifactId}</finalName>
+	</build>
   <dependencies>
     <dependency>
       <groupId>junit</groupId>

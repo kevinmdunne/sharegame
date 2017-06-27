@@ -11,6 +11,10 @@
   <packaging>jar</packaging>
   <version>1.0-SNAPSHOT</version>
   <name>The Share Game Models</name>
+  
+  	<build>
+		<finalName>${groupId}.${artifactId}</finalName>
+	</build>
   <dependencies>
 
 <dependency>

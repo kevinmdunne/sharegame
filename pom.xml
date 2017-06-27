@@ -12,8 +12,9 @@
         <module>model</module>
 		<module>services</module>
 		<module>dal</module>
-    <module>web-client</module>
-    <module>pricing-engine</module>
-  </modules>
+		<module>web-client</module>
+		<module>pricing-engine</module>
+		<module>assembly</module>
+	</modules>
 
 </project>
